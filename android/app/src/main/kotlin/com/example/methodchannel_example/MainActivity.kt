@@ -9,6 +9,7 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
 
+
 class MainActivity: FlutterActivity() {
     companion object {
         private const val CHANNEL = "com.example.methodchannel/interop"
@@ -46,7 +47,17 @@ class MainActivity: FlutterActivity() {
                 result.success(list)
             }
             else if (methodCall.method == METHOD_CALL_ME) {
-                channel.invokeMethod("callMe", listOf("a", "b"))
+                channel.invokeMethod("callMe", listOf("a", "b"), object : MethodChannel.Result {
+                    override fun success(result: Any?) {
+                        Log.d("Android", "result = $result")
+                    }
+                    override fun error(errorCode: String?, errorMessage: String?, errorDetails: Any?) {
+                        Log.d("Android", "$errorCode, $errorMessage, $errorDetails")
+                    }
+                    override fun notImplemented() {
+                        Log.d("Android", "notImplemented")
+                    }
+                })
                 result.success(null)
             }
             else

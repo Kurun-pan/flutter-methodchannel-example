@@ -44,19 +44,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
   static Future<dynamic> get _list async {
     final Map params = <String, dynamic> {
-      "name": "my name is hoge",
-      "age": 25,
+      'name': 'my name is hoge',
+      'age': 25,
     };
     final List<dynamic> list = await _channel.invokeMethod('getList', params);
     return list;
   }
 
-  Future _platformCallHandler(MethodCall call) async {
+  Future<dynamic> _platformCallHandler(MethodCall call) async {
     switch (call.method) {
-      case "callMe":
+      case 'callMe':
         print('call callMe : arguments = ${call.arguments}');
-        break;
-        //return Future.value('');
+        return Future.value('called from platform!');
+        //return Future.error('error message!!');
       default:
         print('Unknowm method ${call.method}');
         throw MissingPluginException();
