@@ -51,13 +51,16 @@ class _MyHomePageState extends State<MyHomePage> {
     return list;
   }
 
-  Future platformCallHandler(MethodCall call) async {
+  Future _platformCallHandler(MethodCall call) async {
     switch (call.method) {
       case "callMe":
         print('call callMe : arguments = ${call.arguments}');
         break;
+        //return Future.value('');
       default:
         print('Unknowm method ${call.method}');
+        throw MissingPluginException();
+        break;
     }
   }
 
@@ -66,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
 
     // Platforms -> Dart
-    _channel.setMethodCallHandler(platformCallHandler);
+    _channel.setMethodCallHandler(_platformCallHandler);
 
     // Dart -> Platforms
     _platformVersion.then((value) => setState(() => _platformMessage = value));
